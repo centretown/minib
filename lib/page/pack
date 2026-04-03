@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+
+for arg in "$@"
+do
+    echo $arg
+    echo '#include <Arduino.h>' > $arg.cpp
+    echo -n 'const char *' >> $arg.cpp
+    echo -n $arg >> $arg.cpp
+    echo '= R"~(' >> $arg.cpp
+    cat $arg.chunk | tr -s '[:blank:]' >> $arg.cpp
+    echo  ')~";'  >> $arg.cpp
+done

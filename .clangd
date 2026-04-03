@@ -1,0 +1,9 @@
+CompileFlags:
+  Remove: [
+      "-mlongcalls",
+      "-fstrict-volatile-bitfields",
+      "-fno-tree-switch-conversion",
+    ] # Removes optimization flags like -O2, -fno-exceptions, etc.
+Index:
+  Background: Skip
+  StandardLibrary: true

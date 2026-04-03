@@ -1,0 +1,4 @@
+.pio
+.cache
+src/credentials.cpp
+scratch

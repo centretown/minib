@@ -6,7 +6,7 @@ const char *cardHtml = "<div class=\"w3-card w3-padding w3-asphalt\">";
 
 const char *cardAction =
     "<div class=\"w3-card w3-padding w3-asphalt "
-    "w3-hover-cobalt\" hx-get=\"/%s\" hx-swap>";
+    "w3-hover-cobalt w3-border w3-border-blue\" hx-get=\"/%s\" hx-swap>";
 
 const char *labelHtml = "<label class=\"\">";
 const char *endLabel = "</label>";

@@ -4,5 +4,5 @@ cd /home/dave/src/minib/lib/page
 ./pack part1 part2
 cd ../..
 pio run -t upload
-# pio device monitor
+pio device monitor
 # pio run

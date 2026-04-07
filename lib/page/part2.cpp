@@ -113,6 +113,14 @@ const char *part2= R"~(
  </h2>
  <hr style="width: 200px" class="w3-opacity" />
 
+
+ <div class="w3-section">
+ <a
+ href="https://github.com/centretown/minib.git"
+ target="_blank"
+ >Source code</a
+ >
+ </div>
  <div class="w3-section">
  <a
  href="https://documentation.espressif.com/esp32-s3-mini-1_mini-1u_datasheet_en.pdf"

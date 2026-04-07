@@ -5,6 +5,9 @@ String createHTML(String content);
 String wrapHeader(String title);
 String wrapGrid(String content);
 String sensors();
+String wrapWiFi();
+String wrapRSSI();
+String wrapWifiScan();
 
 extern const char *part1;
 extern const char *part2;
@@ -19,6 +22,7 @@ extern const char *endSpan;
 extern const char *endDiv;
 extern const char *gridHtml;
 extern const char *valueHtmlID;
+extern const char *spinner;
 
 template <typename T> String wrapCard(String title, T value) {
   String str = cardHtml;
@@ -48,41 +52,21 @@ template <typename T> String wrapValue(String id, String title, T value) {
   return str;
 }
 
-template <typename T> String wrapValueID(String id, String title, T value) {
-  char valueDiv[128];
-  snprintf(valueDiv, sizeof(valueDiv), valueHtmlID, id);
+// template <typename T> String wrapValueID(String id, String title, T value) {
+//   char valueDiv[128];
+//   snprintf(valueDiv, sizeof(valueDiv), valueHtmlID, id);
 
-  String str = cardHtml;
+//   String str = cardHtml;
 
-  str += labelHtml;
-  str += title;
-  str += endLabel;
+//   str += labelHtml;
+//   str += title;
+//   str += endLabel;
 
-  str += valueDiv;
-  str += value;
-  str += endDiv;
+//   str += valueDiv;
+//   str += value;
+//   str += endDiv;
 
-  str += endDiv;
+//   str += endDiv;
 
-  return str;
-}
-
-template <typename T> String wrapActionCard(String id, String title, T value) {
-  char cardDiv[128];
-  snprintf(cardDiv, sizeof(cardDiv), cardAction, id);
-  String str = cardDiv;
-
-  str += labelHtml;
-  str += title;
-  str += endLabel;
-
-  char valueDiv[128];
-  snprintf(valueDiv, sizeof(valueDiv), valueHtmlID, id);
-  str += valueDiv;
-  str += value;
-  str += endDiv;
-
-  str += endDiv;
-
-  return str;
-}
+//   return str;
+// }

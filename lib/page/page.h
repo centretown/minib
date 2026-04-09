@@ -1,16 +1,15 @@
 #pragma once
 #include <Arduino.h>
 
-String createHTML(String content);
+String createHTML();
 String wrapHeader(String title);
 String wrapGrid(String content);
-String sensors();
+String wrapSensors();
 String wrapWiFi();
 String wrapRSSI();
 String wrapWifiScan();
 
-extern const char *part1;
-extern const char *part2;
+extern const char *pageHtml;
 
 extern const char *titleHtml;
 extern const char *cardHtml;

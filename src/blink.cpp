@@ -4,6 +4,26 @@
 
 #include "handlers.h"
 
+#ifdef USE_BLE
+#include <BLE2902.h>
+#include <BLEDevice.h>
+#include <BLEServer.h>
+#include <BLEUtils.h>
+#define bleServerName "ESP32-S3-Mini"
+#define SERVICE_UUID "8b1b6bb1-f161-456a-81c2-994e00e8b61f"
+bool deviceConnected = false;
+class MyServerCallbacks : public BLEServerCallbacks {
+  void onConnect(BLEServer *pServer) {
+    deviceConnected = true;
+    Serial.println("ble connected");
+  };
+  void onDisconnect(BLEServer *pServer) {
+    deviceConnected = false;
+    Serial.println("ble disconnected");
+  }
+};
+#endif
+
 
 UISlider hueSlider("Hue", 128, 0, 255, 1);
 UISlider saturationSlider("Saturation", 255, 0, 255, 1);
@@ -13,7 +33,7 @@ UICheckbox autoHue("Auto Hue", true);
 typedef enum : int { RED, GREEN, BLUE } COLOUR;
 
 CRGB rgbLed[1];
-#define ledPin 21
+#define ledPin LED_PIN
 #define numLeds 1
 
 int ledState = RED;
@@ -43,6 +63,7 @@ void setup() {
 
   delay(1000);
 
+  Serial.println("\nConnecting...");
   WiFi.mode(WIFI_STA);
   WiFi.begin(ssid_router, password_router);
   while (WiFi.status() != WL_CONNECTED) {
@@ -55,6 +76,23 @@ void setup() {
   Serial.println(WiFi.localIP().toString());
 
   setupHandlers();
+
+#ifdef USE_BLE
+  // Create the BLE Device
+  BLEDevice::init(bleServerName);
+  // Create the BLE Server
+  BLEServer *pServer = BLEDevice::createServer();
+  pServer->setCallbacks(new MyServerCallbacks());
+  // Create the BLE Service
+  BLEService *bmeService = pServer->createService(SERVICE_UUID);
+  // Start the service
+  bmeService->start();
+  // Start advertising
+  BLEAdvertising *pAdvertising = BLEDevice::getAdvertising();
+  pAdvertising->addServiceUUID(SERVICE_UUID);
+  pServer->getAdvertising()->start();
+  Serial.println("Waiting a client connection to notify...");
+#endif
 }
 
 inline bool timerExpired(unsigned long lastTime, unsigned long delay) {

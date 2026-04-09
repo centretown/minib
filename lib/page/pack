@@ -3,10 +3,10 @@
 for arg in "$@"
 do
     echo $arg
-    echo '#include <Arduino.h>' > $arg.cpp
-    echo -n 'const char *' >> $arg.cpp
-    echo -n $arg >> $arg.cpp
-    echo '= R"~(' >> $arg.cpp
-    cat $arg.chunk | tr -s '[:blank:]' >> $arg.cpp
-    echo  ')~";'  >> $arg.cpp
+    echo '#include <Arduino.h>' > $arg.html.h
+    echo 'const char *pageHtml' >> $arg.html.h
+    # echo -n $arg >> $arg.html.h
+    echo '= R"~(' >> $arg.html.h
+    cat $arg.html | tr -s '[:blank:]' >> $arg.html.h
+    echo  ')~";'  >> $arg.html.h
 done

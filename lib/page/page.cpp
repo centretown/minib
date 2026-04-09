@@ -3,6 +3,12 @@
 #include <cstdint>
 #include <cstdio>
 
+#ifdef ESP32_S3_MINI
+#include "esp32_s3_mini.html.h"
+#elif ESP32_S3
+#include "esp32_s3.html.h"
+#endif
+
 const char *titleHtml = "<div class=\"w3-padding w3-dark-grey w3-margin-top\">";
 const char *titleAction =
     "<div class=\"w3-padding w3-dark-grey w3-margin-top w3-hover-cobalt "
@@ -15,12 +21,11 @@ const char *spinner =
 // "
 //                           "w3-border w3-border-blue\" hx-get=\"/%s\" "
 //                           "hx-swap-oob=\"#%s\" target=\"#%s\">";
-const char *cardHtml = "<div class=\"w3-card w3-padding w3-asphalt ";
+const char *cardHtml = "<div class=\"w3-card w3-padding w3-asphalt\">";
 
-const char *cardAction =
-    "<div class=\"w3-card w3-padding w3-asphalt "
-    "w3-hover-cobalt w3-border w3-border-blue\" "
-    "hx-get=\"/%s\" hx-swap=\"innerHTML\">";
+const char *cardAction = "<div class=\"w3-card w3-padding w3-asphalt "
+                         "w3-hover-cobalt w3-border w3-border-blue\" "
+                         "hx-get=\"/%s\" hx-swap=\"innerHTML\">";
 
 const char *labelHtml = "<label class=\"\">";
 const char *endLabel = "</label>";
@@ -45,10 +50,8 @@ String wrapHTML(String begin, String content, String end) {
   return str;
 }
 
-String createHTML(String content) {
-  String str = part1;
-  str += content;
-  str += part2;
+String createHTML() {
+  String str = pageHtml;
   return str;
 }
 
@@ -75,7 +78,7 @@ String wrapRSSI() {
 }
 
 String wrapActionCard(String id, String (*wrapper)()) {
-  char cardDiv[256];
+  char cardDiv[512];
   snprintf(cardDiv, sizeof(cardDiv), cardAction, id);
   String str = cardDiv;
   str += wrapper();
@@ -119,11 +122,13 @@ String wrapWiFi() {
   return str;
 }
 
-String sensors() {
+String wrapSensors() {
+  // String str = "<div id=\"sensors\">";
   String str = wrapHeader("Wifi");
   str += wrapWiFi();
-
+#ifdef USE_BLE
   str += wrapHeader("Bluetooth");
+#endif
   str += wrapHeader("LED");
   str += wrapHeader("Temperature");
   return str;
